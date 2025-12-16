@@ -37,6 +37,7 @@
             background: #f8f9fa;
             border-radius: 4px;
             white-space: pre-wrap;
+            font-style: italic;
         }
     </style>
 </head>
@@ -51,6 +52,7 @@
             <button onclick="initDB()">Initialize Database</button>
             <button onclick="getUsers()">Get Users</button>
             <button onclick="getRandomUser()">Random User</button>
+            <button onclick="getWisdom()">get Chinese proverb</button>
         </div>
 
         <div id="result"></div>
@@ -65,7 +67,7 @@
             try {
                 const response = await fetch('api/health');
                 const data = await response.json();
-                resultDiv.textContent = 'Health Check: ' + JSON.stringify(data, null, 2);
+                resultDiv.textContent = 'Health Check:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
                 resultDiv.textContent = 'Error: ' + error.message;
             }
@@ -75,7 +77,7 @@
             try {
                 const response = await fetch('api/init-db');
                 const data = await response.json();
-                resultDiv.textContent = 'DB Init: ' + JSON.stringify(data, null, 2);
+                resultDiv.textContent = 'DB Init:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
                 resultDiv.textContent = 'Error: ' + error.message;
             }
@@ -85,18 +87,27 @@
             try {
                 const response = await fetch('api/users');
                 const data = await response.json();
-                resultDiv.textContent = 'Users: ' + JSON.stringify(data, null, 2);
+                resultDiv.textContent = 'Users:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
                 resultDiv.textContent = 'Error: ' + error.message;
             }
         }
 
-        // ✅ New function for random user
         async function getRandomUser() {
             try {
                 const response = await fetch('api/random-user');
                 const data = await response.json();
-                resultDiv.textContent = 'Random User: ' + JSON.stringify(data, null, 2);
+                resultDiv.textContent = 'Random User:\n' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getWisdom() {
+            try {
+                const response = await fetch('api/wisdom');
+                const wisdom = await response.text();
+                resultDiv.textContent = 'Chinese proverb:\n\n' + wisdom;
             } catch (error) {
                 resultDiv.textContent = 'Error: ' + error.message;
             }

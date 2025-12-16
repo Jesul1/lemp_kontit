@@ -78,6 +78,24 @@ def random_user():
         return jsonify({"message": "Random user added"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/api/wisdom")
+def wisdom():
+    wisdoms = [
+        "Man who drop watch in toilet has shitty time",
+        "Man who runs in front of car gets tired. Man who runs behind car gets exhausted",
+        "Man who wants to date pretty nurse must be patient.",
+        "Man with hand in pants feel cocky all day .",
+        "Man who run behind car will get exhausted but man who runs in front of car will get tyred.",
+        "Man who walk into airport doors sideways, going to Bangkok.",
+        "水果喂没有那时候",
+        "菜住现在想她",
+        "千里之行，始于足下",
+        "学而不思则罔，思而不学则殆",
+        "知之为知之，不知为不知，是知也",
+    ]
+    return random.choice(wisdoms)
+
 
 
 if __name__ == '__main__':

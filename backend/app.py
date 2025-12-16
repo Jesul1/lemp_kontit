@@ -94,7 +94,8 @@ def wisdom():
         "学而不思则罔，思而不学则殆",
         "知之为知之，不知为不知，是知也",
     ]
-    return jsonify({"wisdom": str(random.choice(wisdoms))})
+    choice = random.choice(wisdoms)
+    return jsonify({"wisdom": choice})
 
 
 

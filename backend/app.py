@@ -5,6 +5,8 @@ import mysql.connector
 #flask app instance update joo
 app = Flask(__name__)
 
+#👍
+
 DB_HOST = os.getenv('DB_HOST', 'db')
 DB_USER = os.getenv('DB_USER', 'appuser')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'changeme')

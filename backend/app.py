@@ -9,10 +9,10 @@ app = Flask(__name__)
 
 def get_db_uptime():
     conn = mysql.connector.connect(
-        host=os.environ['db_host'],
-        user=os.environ['db_user'],
-        password=os.environ['db_pass'],
-        database=os.environ['db_name']
+        host=os.environ['DB_HOST'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+        database=os.environ['DB_NAME']
     )
     cursor = conn.cursor()
     cursor.execute("SELECT NOW()")

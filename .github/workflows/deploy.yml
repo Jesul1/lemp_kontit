@@ -67,16 +67,6 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v4
 
-        - name: Ensure target directory exists on VM
-          uses: appleboy/ssh-action@v1.0.3
-          with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USER }}
-            key: ${{ secrets.SSH_KEY }}
-            port: 22
-            script: |
-              cd /
-              sudo mkdir -p /opt/lemp/db/init/
 
         - name: Set permissions for /opt/lemp/db/init/
           uses: appleboy/ssh-action@v1.0.3
@@ -88,19 +78,6 @@ jobs:
             script: |
               sudo chown -R $(whoami) /opt/lemp/db/init/
               sudo chmod -R u+w /opt/lemp/db/init/
-
-        - name: Copy init.sql to VM
-          uses: appleboy/scp-action@v0.1.4
-          with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USER }}
-            key: ${{ secrets.SSH_KEY }}
-            port: 22
-            source: db/init/init.sql
-            target: /opt/lemp/db/init/
-            strip_components: 2
-
-        
 
         - name: Copy docker-compose.prod.yml to VM
           uses: appleboy/scp-action@v0.1.4

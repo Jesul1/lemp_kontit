@@ -1,6 +1,0 @@
-CREATE DATABASE IF NOT EXISTS appdb;
-CREATE USER IF NOT EXISTS 'CI_USER'@'%' IDENTIFIED BY '3p1cGam1ng123!';
-GRANT ALL PRIVILEGES ON appdb.* TO 'CI_USER'@'%';
-FLUSH PRIVILEGES;
-
--- For debugging purposes, you can use the

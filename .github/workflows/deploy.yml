@@ -2,7 +2,7 @@ name: CI/CD for LEMP Containers
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     tags:     [ 'v*' ]  # optional: run on version tags, e.g., v1.0.0 #- name: Run backend tests
                               #  run: python backend/test_app.py
 

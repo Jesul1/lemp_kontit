@@ -1,34 +1,84 @@
-import os
-import json
-from datetime import datetime
-
+from flask import Flask, jsonify
 import mysql.connector
-from flask import Flask, render_template
+import random
+import os
 
 app = Flask(__name__)
 
-def get_db_uptime():
-    conn = mysql.connector.connect(
-        host=os.environ['DB_HOST'],
-        user=os.environ['DB_USER'],
-        password=os.environ['DB_PASSWORD'],
-        database=os.environ['DB_NAME']
+def get_db_connection():
+    return mysql.connector.connect(
+        host=os.getenv('DB_HOST', 'mysql'),
+        user=os.getenv('DB_USER', 'appuser'),
+        password=os.getenv('DB_PASSWORD', 'apppassword123'),
+        database=os.getenv('DB_NAME', 'appdb')
     )
-    cursor = conn.cursor()
-    cursor.execute("SELECT NOW()")
-    result = cursor.fetchone()
-    result = result[0].strftime("%Y-%m-%d %H:%M:%S")
 
-    # Clean up
-    cursor.close()
-    conn.close()
+@app.route('/api/health')
+def health():
+    return jsonify({"status": "healthy"})
 
-    return(result)
+@app.route('/api/users')
+def get_users():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users")
+        users = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(users)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-@app.route('/')
-def gooning():
-    time = get_db_uptime()
-    return render_template('PirateWeb.html', sql_server_time=time)
+@app.route('/api/init-db')
+def init_db():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100),
+                email VARCHAR(100)
+            )
+        """)
+        cursor.execute("""
+            INSERT INTO users (name, email) VALUES
+            ('John Doe', 'john@example.com'),
+            ('Jane Smith', 'jane@example.com')
+        """)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "Database initialized"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+funny_first_names = [
+    "Giga", "Ultra", "Mega", "Baby", "Sneaky", "Chonky", "Sir", "Professor", "Doctor", "Mister"
+]
+
+funny_last_names = [
+    "Noodle", "Thunder", "McFluff", "Wobbles", "Bananapants", "Destroyer", "Pickleface", "Boomer", "Gooner"
+]
+
+@app.route('/api/random-user')
+def random_user():
+    name = f"{random.choice(funny_first_names)} {random.choice(funny_last_names)}"
+    email = name.lower().replace(" ", ".") + "@hotmail.com"
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+                INSERT INTO users (name, email) VALUES
+                ('""" + name + """', '""" + email + """')""")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "Random user added"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

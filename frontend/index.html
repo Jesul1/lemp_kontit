@@ -106,8 +106,8 @@
         async function getWisdom() {
             try {
                 const response = await fetch('api/wisdom');
-                const wisdom = await response.text();
-                resultDiv.textContent = 'Chinese proverb:\n\n' + wisdom;
+                const wisdom = await response.json();
+                resultDiv.textContent = 'Chinese proverb:\n' + JSON.stringify(wisdom, null, 2);
             } catch (error) {
                 resultDiv.textContent = 'Error: ' + error.message;
             }

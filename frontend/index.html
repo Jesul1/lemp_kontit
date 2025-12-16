@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEMP Stack K8s Demo</title>
+    <base href="/cicd/">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,7 +65,7 @@
 
         async function checkHealth() {
             try {
-                const response = await fetch('/api/health');
+                const response = await fetch('api/health');
                 const data = await response.json();
                 resultDiv.textContent = 'Health Check:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
@@ -74,7 +75,7 @@
 
         async function initDB() {
             try {
-                const response = await fetch('/api/init-db');
+                const response = await fetch('api/init-db');
                 const data = await response.json();
                 resultDiv.textContent = 'DB Init:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
@@ -84,7 +85,7 @@
 
         async function getUsers() {
             try {
-                const response = await fetch('/api/users');
+                const response = await fetch('api/users');
                 const data = await response.json();
                 resultDiv.textContent = 'Users:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
@@ -94,7 +95,7 @@
 
         async function getRandomUser() {
             try {
-                const response = await fetch('/api/random-user');
+                const response = await fetch('api/random-user');
                 const data = await response.json();
                 resultDiv.textContent = 'Random User:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
@@ -104,7 +105,7 @@
 
         async function getWisdom() {
             try {
-                const response = await fetch('/api/wisdom');
+                const response = await fetch('api/wisdom');
                 const data = await response.json();
                 resultDiv.textContent = 'Chinese proverb:\n' + JSON.stringify(data, null, 2);
             } catch (error) {
